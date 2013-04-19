@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+ <properties resource="jdbc.properties" />
+ <settings
+		cacheModelsEnabled="true"      
+	    enhancementEnabled="true"      
+	    lazyLoadingEnabled="true"      
+	    errorTracingEnabled="true"      
+	    maxRequests="128"          
+	    maxSessions="64"          
+	    maxTransactions="20"          
+	    useStatementNamespaces="true"   
+    />
+
+ <!--   存放sql语句的xml -->
+  <sqlMap resource="com/ruyicai/web/model/sql/PhoneInfo_SqlMap.xml"/>
+  
+</sqlMapConfig>

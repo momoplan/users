@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:jdbc.properties</value>
+      </list>
+    </property>
+  </bean>
+   <bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="mysqlDataSource" />
+   </bean>
+   <!-- proxoolDataSource配置 -->
+   
+<!--<bean id="proxoolDataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
+   	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+        <property name="driverClassName" value="${mysql.driver}"/>
+        <property name="url" value="${mysql.url}" />
+        <property name="username" value="${mysql.username}" />
+        <property name="password" value="${mysql.password}" />
+        
+       	<property name="maxActive"><value>10</value></property>   
+        <property name="initialSize"><value>2</value></property>   
+        <property name="maxWait"><value>600</value></property>   
+        <property name="maxIdle"><value>5</value></property>   
+        <property name="minIdle"><value>3</value></property>
+        <property name="removeAbandonedTimeout"><value>180</value></property>      
+	</bean>
+<!--    <bean id="proxoolDataSource" -->
+<!--         class="org.logicalcobwebs.proxool.ProxoolDataSource" destroy-method="close"> -->
+<!--         <property name="alias" value="dataSource1" /> -->
+<!--         <property name="driver" value="${mysql.driver}" /> -->
+<!--         <property name="driverUrl" value="${mysql.url}" /> -->
+<!--         <property name="user" value="${mysql.username}" /> -->
+<!--         <property name="password" value="${mysql.password}" /> -->
+<!--          最少保持的空闲连接数	 -->
+<!--          <property name="prototypeCount" value="0" /> -->
+<!-- 		<property name="maximumConnectionCount" value="10" /> -->
+<!-- 		<property name="minimumConnectionCount" value="2" /> -->
+<!-- 		<property name="simultaneousBuildThrottle" value="10" /> -->
+
+<!--         <property name="trace" value="true" /> -->
+<!--         <property name="delegateProperties" value="foo=5" /> -->
+<!--     </bean> -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation">
+      <value>classpath:sql-map-config.xml</value>
+    </property>
+    <property name="dataSource">
+      <ref local="mysqlDataSource"/>
+    </property>
+    </bean>
+  <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+    <property name="sqlMapClient">
+      <ref local="sqlMapClient"/>
+    </property>
+  </bean>
+
+  <!--=====================================事务管理=====================================-->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource">
+      <ref bean="mysqlDataSource"/>
+    </property>
+  </bean>
+
+  <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager" ref="transactionManager"/>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="add*">PROPAGATION_REQUIRED</prop>
+        <prop key="sub*">PROPAGATION_REQUIRED</prop>
+        <prop key="zhuan*">PROPAGATION_REQUIRED,-Exception</prop>
+        <prop key="delete*">PROPAGATION_REQUIRED</prop>
+        <prop key="insert*">PROPAGATION_REQUIRED</prop>
+        <prop key="update*">PROPAGATION_REQUIRED</prop>
+        <prop key="transfer*">PROPAGATION_REQUIRED</prop>
+        <prop key="import*">PROPAGATION_REQUIRED</prop>
+        <prop key="increase*">PROPAGATION_REQUIRED</prop>
+        <prop key="synchron*">PROPAGATION_REQUIRED</prop>
+        <!-- prop key="query*">PROPAGATION_REQUIRED</prop -->
+        <!-- prop key="find*">PROPAGATION_REQUIRED</prop -->
+        <!-- prop key="get*">PROPAGATION_REQUIRED</prop -->
+      </props>
+    </property>
+  </bean>
+
+  <bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="interceptorNames">
+      <list>
+        <value>transactionInterceptor</value>
+      </list>
+    </property>
+    <property name="beanNames">
+      <value>*Service</value>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+    <property name="transactionInterceptor">
+      <ref bean="transactionInterceptor"/>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, caption, tbody, tfoot, thead, th, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
+vertical-align: baseline;
+font-family: inherit;
+font-weight: inherit;
+font-style: inherit;
+outline: 0;
+padding: 0;
+margin: 0;
+border: 0;
+word-break:break-all;
+word-wrap:break-word;
+}
+form {
+margin: 0px;
+padding: 0px;
+display:inline;
+}
+ol, ul,li {
+list-style: none;
+}
+.clear{content: "."; display: block; height: 0px; line-height:0px; visibility:hidden; clear:both}
+body{font-size:18px}
+a{text-decoration:none; color:#003399}
+a:active{text-decoration:underline; color:#c00}
+.top{height:11px; width:100%; background:url(../images/repeatx.png) repeat-x 0 0; padding:5px 0 0 4px}
+.top img{display:block}
+.logo_box{height:48px; width:100%; background:url(../images/repeatx.png) repeat-x 0 -300px}
+.logo{float:left; margin-left:10px; margin-top:10px; display:inline}
+.login{float:right; padding-top:12px; padding-right:10px}
+.login a{font-size:12px; color:#FFF; background:url(../images/btn_bg.png) no-repeat; width:49px; height:23px; display:block; text-align:center; line-height:23px; float:right; margin-left:10px}
+.menu{width:100%; border-bottom:1px solid #cc9999; overflow:hidden}
+.menu ul{display:block; background:url(../images/repeatx.png) repeat-x 0 -80px; overflow:hidden; padding-left:10px}
+.menu li{line-height:30px; float:left; padding-right:15px; background:url(../images/listline.png) no-repeat right center; margin-right:15px}
+.menu a{font-weight:bold; color:#734242}
+.hotnews{line-height:180%; border-bottom:1px solid #cc9999; background:#fff1f1; padding:4px 0 4px 0}
+.hotnews a{padding-left:15px; background:url(../images/repeatx.png) no-repeat 10px -210px; color:#C00}
+.quike_slect{background:#f4f4f4; border-bottom:1px solid #ccc; padding:5px 10px}
+.contant{line-height:180%}
+h1{font-size:18px; font-weight:bold; background:#cc0000; line-height:28px; color:#FFC; padding-left:10px; border-top:1px solid #900; border-bottom:1px solid #900}
+h1 a{color:#FFC; text-decoration:underline}
